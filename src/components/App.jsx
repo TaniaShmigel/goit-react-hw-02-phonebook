@@ -20,24 +20,25 @@ export class App extends Component {
   handleSubmit = (values, { resetForm }) => {
     const newContact = values;
 
-    const check = this.state.contacts.filter(
+    const check = this.state.contacts.find(
       contact => contact.name.toLowerCase() === newContact.name.toLowerCase()
     );
 
-    if (check.length) {
+    if (check) {
       alert(`${newContact.name} is already in contacts`);
-    } else {
-      newContact.id = nanoid();
-
-      this.setState(prevState => ({
-        contacts: [...prevState.contacts, newContact],
-      }));
-
-      resetForm({
-        name: '',
-        number: '',
-      });
+      return;
     }
+
+    newContact.id = nanoid();
+
+    this.setState(prevState => ({
+      contacts: [...prevState.contacts, newContact],
+    }));
+
+    resetForm({
+      name: '',
+      number: '',
+    });
   };
 
   handleFilter = ({ target: { name, value } }) => {
@@ -53,9 +54,6 @@ export class App extends Component {
   };
 
   makeFiltredContacts = () => {
-    if (!this.state.filter) {
-      return;
-    }
     return this.state.contacts.filter(({ name }) => {
       return name.toLowerCase().includes(this.state.filter.toLowerCase());
     });
@@ -70,8 +68,7 @@ export class App extends Component {
         <h2>Contacts</h2>
         <SearchFilter onFilter={this.handleFilter} />
         <ListContact
-          contacts={this.state.contacts}
-          filteredContacts={this.makeFiltredContacts()}
+          contacts={this.makeFiltredContacts()}
           onDelete={this.handleDelete}
         />
       </div>

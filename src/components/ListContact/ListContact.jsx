@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import ElementContact from '../ElementContact';
 
-const ListContact = ({ contacts, filteredContacts, onDelete }) => {
+const ListContact = ({ contacts, onDelete }) => {
   const makeList = array => {
     return array.map(({ id, name, number }) => {
       return (
@@ -15,11 +15,7 @@ const ListContact = ({ contacts, filteredContacts, onDelete }) => {
       );
     });
   };
-  return (
-    <ul>
-      {filteredContacts ? makeList(filteredContacts) : makeList(contacts)}
-    </ul>
-  );
+  return <ul>{makeList(contacts)}</ul>;
 };
 
 ListContact.propTypes = {
@@ -30,16 +26,7 @@ ListContact.propTypes = {
       number: PropTypes.string.isRequired,
     })
   ).isRequired,
-  filteredContacts: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
-      number: PropTypes.string.isRequired,
-    })
-  ),
   onDelete: PropTypes.func.isRequired,
 };
 
 export default ListContact;
-
-
